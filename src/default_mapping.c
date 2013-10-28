@@ -90,10 +90,11 @@ static int modbus_mapping_write_single_register(void* modbus_mapping_, uint16_t 
 
 static int modbus_mapping_write_multiple_coils(void* modbus_mapping_, uint16_t starting_address, uint16_t quantity, const uint8_t values[])
 {
+	int i;
     modbus_mapping_t* modbus_mapping = (modbus_mapping_t*)modbus_mapping_;
     if(starting_address + quantity > modbus_mapping->nb_bits)
         return -1;
-    for(int i = 0; i < quantity; ++i) {
+    for(i = 0; i < quantity; ++i) {
         modbus_mapping->tab_bits[starting_address + i] = (values[i/8] & (1 << i % 8))?1:0;
     }
     return 0;
@@ -101,10 +102,11 @@ static int modbus_mapping_write_multiple_coils(void* modbus_mapping_, uint16_t s
 
 static int modbus_mapping_write_multiple_registers(void* modbus_mapping_, uint16_t starting_address, uint16_t quantity, const uint16_t values[])
 {
+	int i;
     modbus_mapping_t* modbus_mapping = (modbus_mapping_t*)modbus_mapping_;
     if(starting_address + quantity > modbus_mapping->nb_registers)
         return -1;
-    for(int i = 0; i < quantity; ++i) {
+    for(i = 0; i < quantity; ++i) {
         modbus_mapping->tab_registers[starting_address + i] = values[i];
     }
     return 0;
