@@ -943,12 +943,12 @@ int modbus_reply(modbus_t *ctx, const uint8_t *req,
         break;
     case _FC_MASK_WRITE_REGISTER: {
             uint16_t data;
-            uint16_t and = (req[offset + 3] << 8) + req[offset + 4];
-            uint16_t or = (req[offset + 5] << 8)+ req[offset + 6];
+            uint16_t and_value = (req[offset + 3] << 8) + req[offset + 4];
+            uint16_t or_value = (req[offset + 5] << 8)+ req[offset + 6];
             uint16_t byte_count = 2;
             res = mb_storage_backend->vfptable->read_holding_registers(mb_storage_backend, address, 1, &byte_count, &data);
             if(res >= 0) { 
-                data = (data & and) | (or & (~and));
+                data = (data & and_value) | (or_value & (~and_value));
                 res = mb_storage_backend->vfptable->write_single_register(mb_storage_backend, address, data);
                 memcpy(rsp, req, req_length);
                 rsp_length = req_length;
