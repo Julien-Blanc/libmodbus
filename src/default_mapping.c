@@ -55,7 +55,7 @@ static int modbus_mapping_read_holding_registers(void* modbus_mapping_, uint16_t
 static int modbus_mapping_read_input_registers(void* modbus_mapping_, uint16_t starting_address, uint16_t quantity, uint16_t* byte_count, uint16_t values[])
 {
     modbus_mapping_t* modbus_mapping = (modbus_mapping_t*)modbus_mapping_;
-    if(starting_address + quantity >= modbus_mapping->nb_input_registers)
+    if(starting_address + quantity > modbus_mapping->nb_input_registers)
         return -1; /* return invalid address */
     int i;
     for(i = 0; i < quantity; ++i) {
@@ -82,7 +82,7 @@ static int modbus_mapping_write_single_coil(void* modbus_mapping_, uint16_t addr
 static int modbus_mapping_write_single_register(void* modbus_mapping_, uint16_t address, uint16_t value)
 {
     modbus_mapping_t* modbus_mapping = (modbus_mapping_t*)modbus_mapping_;
-    if(address > modbus_mapping->nb_registers)
+    if(address >= modbus_mapping->nb_registers)
         return -1; /* return invalid address */
     modbus_mapping->tab_registers[address] = value;
     return 0;
